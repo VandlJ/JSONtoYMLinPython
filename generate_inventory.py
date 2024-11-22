@@ -31,4 +31,14 @@ except Exception as e:
     print(f"Error while writing to {inventory_file}: {e}")
     exit(1)
 
+# Print the content of the inventory.yml file
+try:
+    with open(inventory_file, 'r') as f:
+        print("\nContent of inventory.yml:")
+        print(f.read())  # Print the file content
+except FileNotFoundError:
+    print(f"Error: {inventory_file} not found.")
+except Exception as e:
+    print(f"Error while reading {inventory_file}: {e}")    
+
 print(f"Ansible inventory file has been successfully generated at {inventory_file}.")
