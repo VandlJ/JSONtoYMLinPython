@@ -40,11 +40,18 @@ if not isinstance(load_balancer_ip, str):
 # Generate the inventory file
 try:
     with open(inventory_file, 'w') as f:
+        # Write all hosts
+        f.write("---\nall:\n  hosts:\n")
+        for ip in backend_ips:
+            f.write(f"    {ip}:\n")
+        f.write(f"    {load_balancer_ip}:\n")
+        f.write("  vars:\n    ansible_user: root\n    ansible_ssh_private_key_file: /var/iac-dev-container-data/id_ecdsa\n")
+        
         # Write backends
         f.write("\nbackends:\n  hosts:\n")
         for ip in backend_ips:
             f.write(f"    {ip}:\n")
-            
+
         # Write load balancer
         f.write("\nload_balancer:\n  hosts:\n")
         f.write(f"    {load_balancer_ip}:\n")
